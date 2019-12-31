@@ -1,0 +1,16 @@
+.feather-plus-circle {
+    cursor: pointer;
+}
+
+button {
+    border: none;
+}
+
+.bg-economic {
+    background-color: #333;
+}
+
+.graph {
+    overflow: hidden;
+    margin: -100px 0 0 0 !important;
+}

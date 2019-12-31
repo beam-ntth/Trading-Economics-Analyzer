@@ -1,0 +1,137 @@
+<!DOCTYPE html>
+{% load staticfiles %}
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <script src="https://unpkg.com/feather-icons"></script>
+    <!-- Bootstrap Link -->
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.4.1/css/bootstrap.min.css" integrity="sha384-Vkoo8x4CGsO3+Hhxv8T/Q5PaXtkKtu6ug5TOeNV6gBiFeWPGFN9MuhOf23Q9Ifjh" crossorigin="anonymous">
+    <link rel="stylesheet" type="text/css" href="{% static 'css/style.css' %}">
+    <title>Trading Economics Analyzer</title>
+</head>
+<body>
+    <!-- Navigation Bar -->
+    <nav class="navbar navbar-dark bg-economic">
+        <a class="navbar-brand" href="#">
+            <img class="px-3" src="{% static 'images/logo.png' %}" height="50" alt="">
+            Trading Economics Analyzer - GDP
+        </a>
+    </nav>
+    
+    <form action="/analysis" class="form-inline bg-light">
+        <!-- Data Analytics Selection Bar -->
+        <nav class="navbar navbar-light bg-light px-xl-5 px-4">
+            <span class="navbar-brand"> 
+                Graph 1
+                <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 2 24 24" fill="none" stroke="#5cb85c" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="feather feather-bar-chart-2"><line x1="18" y1="20" x2="18" y2="10"/><line x1="12" y1="20" x2="12" y2="4"/><line x1="6" y1="20" x2="6" y2="14"/></svg>
+            </span>
+                <div class="form-group">
+                    <label for="country-choices"> Country: </label>
+                    <div class="px-3"> 
+                        <!-- List of all the countries -->
+                        <select class="form-control" name='country'>
+                            <option value="---">---</option>
+                            {% if countries %}
+                                {% for country in countries %}
+                                    <option value="{{ country }}">{{ country }}</option>
+                                {% endfor %}
+                            {% endif %}
+                        </select>
+                    </div>
+                </div>
+                <div class="form-group">
+                    <label for="indicator-choices"> Indicator: </label>
+                    <div class="px-3">
+                        <select class="form-control" name="indicator">
+                            <option value="---">---</option>
+                            {% for gdp in gdps %}
+                                <option value="{{ gdp }}">{{ gdp }}</option>
+                            {% endfor %}
+                        </select>
+                    </div>
+                </div>
+                <!-- <div class="form-group">
+                    <label for="start-date">Start Date: </label>
+                    <div class="px-3">
+                        <input type="date" class="form-control" id="start-date" name="start-date">
+                    </div> 
+                </div>
+                <div class="form-group">
+                    <label for="end-date"> End Date: </label>
+                    <div class="px-3">
+                        <input type="date" class="form-control" id="end-date" name="end-date">
+                    </div>
+                </div> -->
+        </nav>
+
+        <!-- Data Analytics Selection Bar 2 -->
+        <nav class="navbar navbar-light bg-light px-xl-5 px-md-4">
+            <!-- <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarNavDropdown" aria-controls="navbarNavDropdown" aria-expanded="false" aria-label="Toggle navigation">
+                <span class="navbar-toggler-icon"></span>
+            </button> -->
+            <span class="navbar-brand"> 
+                Graph 2
+                <svg xmlns="http://www.w3.org/2000/svg" width="22" height="24" viewBox="0 2 24 24" fill="none" stroke="#5cb85c" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="feather feather-bar-chart"><line x1="12" y1="20" x2="12" y2="10"/><line x1="18" y1="20" x2="18" y2="4"/><line x1="6" y1="20" x2="6" y2="16"/></svg>
+            </span>
+                <div class="form-group">
+                    <label for="country-choices"> Country: </label>
+                    <div class="px-3"> 
+                        <select class="form-control" name='country-2'>
+                            <option value="---">---</option>
+                            {% if countries %}
+                                {% for country in countries %}
+                                    <option value="{{ country }}">{{ country }}</option>
+                                {% endfor %}
+                            {% endif %}
+                        </select>
+                    </div>
+                </div>
+                <div class="form-group">
+                    <label for="indicator-choices"> Indicator: </label>
+                    <div class="px-3">
+                        <select class="form-control" name="indicator-2">
+                            <option value="---">---</option>
+                            {% for gdp in gdps %}
+                                <option value="{{ gdp }}">{{ gdp }}</option>
+                            {% endfor %}
+                        </select>
+                    </div>
+                </div>
+                <div class="form-group">
+                    <label for="start-date">Start Date: </label>
+                    <div class="px-3">
+                        <input type="date" class="form-control" id="start-date" name="start-date">
+                    </div> 
+                </div>
+                <div class="form-group">
+                    <label for="end-date"> End Date: </label>
+                    <div class="px-3">
+                        <input type="date" class="form-control" id="end-date" name="end-date">
+                    </div>
+                </div>
+                <input class="btn btn-outline-success my-2 my-sm-0 ml-auto" type="submit" value="Analyze!">        
+        </nav>
+    </form>
+    <div class="container text-center">
+        <div class="row">*Free accounts have access to the following countries: Mexico, New Zealand, Sweden, Thailand. For more, contact us at support@tradingeconomics.com.</div>
+        <img src="{% static 'images/plot.png' %}" class="img-fluid graph">
+    </div>
+    <div class="container-fluid bg-light">
+        <span class="navbar-brand"> News Related to Your Search</span>
+        {% for choice in selected %}
+            <div class="navbar navbar-light bg-light">
+                <span>
+                    <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 2 24 24" fill="none" stroke="#28a745" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="feather feather-fast-forward"><polygon points="13 19 22 12 13 5 13 19"/><polygon points="2 19 11 12 2 5 2 19"/></svg>
+                    <a class="navbar-link text-dark mx-3" target="_blank" href="https://tradingeconomics.com/{{ choice }}/news"> Click to check current news about {{ choice }}</a>
+                </span>
+            </div>
+        {% endfor %}
+    </div>
+    
+    
+    <!-- Bootstrap Scripts -->
+    <script src="https://code.jquery.com/jquery-3.4.1.slim.min.js" integrity="sha384-J6qa4849blE2+poT4WnyKhv5vZF5SrPo0iEjwBvKU7imGFAV0wwj1yYfoRSJoZ+n" crossorigin="anonymous"></script>
+    <script src="https://cdn.jsdelivr.net/npm/popper.js@1.16.0/dist/umd/popper.min.js" integrity="sha384-Q6E9RHvbIyZFJoft+2mJbHaEWldlvI9IOYy5n3zV9zzTtmI3UksdQRVvoxMfooAo" crossorigin="anonymous"></script>
+    <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.4.1/js/bootstrap.min.js" integrity="sha384-wfSDF2E50Y2D1uUdj0O3uMBJnjuUD4Ih7YwaYd1iqfktj0Uod8GCExl3Og8ifwB6" crossorigin="anonymous"></script>
+</body>
+</html>
