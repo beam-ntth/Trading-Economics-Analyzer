@@ -110,8 +110,9 @@ def get_all_gdp_indicators():
     return all_gdps
 
 # Testing
-# if __name__ == '__main__':
+if __name__ == '__main__':
     # get_all_countries()
     # get_data('mexico', 'sweden', 'gdp', 'gdp', '2010-01-01', '2018-12-31', '2010-01-01', '2018-12-31')
     # print(format_indicator('GDP Annual Growth Rate'))
     # get_news('thailand', 'mexico')
+    print(os.path.join(BASE_DIR, 'static'))
